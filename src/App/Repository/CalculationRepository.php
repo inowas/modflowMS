@@ -87,6 +87,11 @@ class CalculationRepository
         return $this->connection->fetchAll(sprintf('SELECT * FROM %s WHERE %s = %s ORDER BY %s', Table::CALCULATIONS, 'state', 0, 'id'));
     }
 
+    public function findByCalculationId(string $id): array
+    {
+        return $this->connection->fetchAssoc(sprintf('SELECT * FROM %s WHERE calculation_id = \'%s\'', Table::CALCULATIONS, $id));
+    }
+
     public function cleanup(): void
     {
         $startedButNotFinishedJobs = $this->connection->fetchAll(sprintf('SELECT id FROM %s WHERE state = %s', Table::CALCULATIONS, $this::STATE_RUNNING));

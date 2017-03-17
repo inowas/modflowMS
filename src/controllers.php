@@ -3,13 +3,13 @@
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-
 //Request::setTrustedProxies(array('127.0.0.1'));
 
-#$app->get('/', function(){return new Response('TEST');})->bind('homepage');
 $app->get('/', 'app.default_controller:indexAction');
+$app->get('/calculation/{id}', 'app.default_controller:calculationAction');
 $app->post('/api/validate', 'app.api_controller:postValidateAction');
 $app->post('/api/calculate', 'app.api_controller:postCalculateAction');
+$app->post('/api/calculate/{id}', 'app.api_controller:postCalculateAction');
 
 $app->error(function (\Exception $e, Request $request, $code) use ($app) {
     if ($app['debug']) {

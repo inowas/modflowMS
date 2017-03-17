@@ -25,9 +25,10 @@ class ApiController
 
     /**
      * @param Request $request
+     * @param string $id
      * @return JsonResponse
      */
-    public function postCalculateAction(Request $request)
+    public function postCalculateAction(Request $request, ?string $id)
     {
         $name = $this->app['uploaded_file_name'];
         $modelsPath = $this->app['models.path'];
@@ -39,6 +40,10 @@ class ApiController
         }
 
         $uuid = Uuid::uuid4();
+        if ($id && Uuid::isValid($id)){
+            $uuid = Uuid::fromString($id);
+        }
+
         $configFile->move($modelsPath.'/'.$uuid->toString(), $name);
         $filename = $modelsPath.'/'.$uuid->toString().'/'.$name;
 

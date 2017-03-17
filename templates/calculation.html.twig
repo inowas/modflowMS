@@ -1,0 +1,41 @@
+{% extends "layout.html.twig" %}
+
+{% block content %}
+    <div class="container">
+        <h1>Modflow Calculation</h1>
+
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Status</div>
+                    <div class="panel-body">
+                        <p>Id: {{ calculation["id"] }}</p>
+                        <p>Calculation Id: {{ calculation["calculation_id"] }}</p>
+                        <p>Added: {{ calculation["added_to_queue"] }}</p>
+                        <p>Started: {{ calculation["calculation_started"] }}</p>
+                        <p>Finished: {{ calculation["calculation_finished"] }}</p>
+                        <p>State: {{ calculation["state"] }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Configuration File Content</div>
+                    <div class="panel-body">
+                        <p>{{ configuration }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Log</div>
+                    <div class="panel-body">
+                        <p>{{ calculation["output"] }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

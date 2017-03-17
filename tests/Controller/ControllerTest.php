@@ -16,9 +16,7 @@ class ControllerTest extends WebTestCase
 
     public function testPostConfigFile()
     {
-
         copy( __DIR__.'/testFile.json', __DIR__.'/configFile.json');
-
         $file = new \Symfony\Component\HttpFoundation\File\UploadedFile(
             __DIR__.'/configFile.json',
             'configFile.json',
@@ -35,7 +33,6 @@ class ControllerTest extends WebTestCase
         );
 
         var_dump($client->getResponse()->getContent());
-
     }
 
     public function createApplication()
