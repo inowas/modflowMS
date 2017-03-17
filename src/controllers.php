@@ -6,6 +6,7 @@ use Symfony\Component\HttpFoundation\Response;
 //Request::setTrustedProxies(array('127.0.0.1'));
 
 $app->get('/', 'app.default_controller:indexAction');
+$app->post('/', 'app.default_controller:uploadConfigurationAction');
 $app->get('/calculation/{id}', 'app.default_controller:calculationAction');
 $app->post('/api/validate', 'app.api_controller:postValidateAction');
 $app->post('/api/calculate', 'app.api_controller:postCalculateAction');

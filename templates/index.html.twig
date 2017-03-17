@@ -1,5 +1,15 @@
 {% extends "layout.html.twig" %}
 
 {% block content %}
-    Welcome to your new Silex Application!
+    <div class="container">
+        <h1>Modflow Calculation</h1>
+        <h2>Select configuration file to upload:</h2>
+
+        <form method="post" enctype="multipart/form-data">
+            <input type="file" name="file" id="file">
+            <input type="submit" value="Upload" name="submit">
+        </form>
+
+
+    </div>
 {% endblock %}
