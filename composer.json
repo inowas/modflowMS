@@ -1,6 +1,6 @@
 {
-    "name": "fabpot/silex-skeleton",
-    "description": "A pre-configured skeleton for the Silex microframework",
+    "name": "inowas/modflowMS",
+    "description": "A microservice to run scripts for groundwater modelling",
     "license": "MIT",
     "type": "project",
     "require": {
@@ -33,9 +33,16 @@
         }
     },
     "scripts": {
+        "run-dev": [
+            "echo 'Started web server on http://localhost:8080'",
+            "php -S localhost:8080 -t web web/index_dev.php"
+        ],
         "run": [
-            "echo 'Started web server on http://localhost:8888'",
-            "php -S localhost:8888 -t web"
+            "echo 'Started web server on http://localhost:8080'",
+            "php -S localhost:8080 -t web web/index.php"
+        ],
+        "test": [
+            "phpunit"
         ]
     },
     "require-dev": {
