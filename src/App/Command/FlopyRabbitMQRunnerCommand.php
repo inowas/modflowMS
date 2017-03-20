@@ -26,7 +26,7 @@ class FlopyRabbitMQRunnerCommand extends ContainerAwareCommand {
             return 0;
         }
 
-        $connection = new AMQPStreamConnection('localhost', 5672, 'inowasWS', 'inowasWS');
+        $connection = new AMQPStreamConnection('localhost', 5672, 'guest', 'guest');
         $channel = $connection->channel();
         $channel->queue_declare('calculation', false, false, false, false);
         echo ' [*] Waiting for messages. To exit press CTRL+C', "\n";
