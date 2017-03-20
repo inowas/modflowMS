@@ -70,7 +70,7 @@ class FlopyRabbitMQRunnerCommand extends ContainerAwareCommand {
             return;
         }
 
-        $repo->calculationFinished($id, false, $process->getOutput());
+        $repo->calculationFinished($id, false, $process->getErrorOutput());
         unset($process);
         return;
     }
