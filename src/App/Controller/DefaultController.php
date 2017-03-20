@@ -3,15 +3,12 @@
 namespace App\Controller;
 
 use App\Repository\CalculationRepository;
-use Assert\Assertion;
+use PhpAmqpLib\Connection\AMQPStreamConnection;
+use PhpAmqpLib\Message\AMQPMessage;
 use Ramsey\Uuid\Uuid;
 use Silex\Application;
-use Symfony\Component\Console\Input\ArgvInput;
-use Symfony\Component\Console\Input\ArrayInput;
-use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Process\Process;
 
 class DefaultController
 {
@@ -50,8 +47,15 @@ class DefaultController
 
         $configFile->move($modelsPath.'/'.$uuid->toString(), $name);
         $filename = $modelsPath.'/'.$uuid->toString().'/'.$name;
-        $content = file_get_contents($filename);
-        #Assertion::isJsonString($content);
+
+        $connection = new AMQPStreamConnection('localhost', 5672, 'modflowMS', 'modflowMS');
+        $channel = $connection->channel();
+        $channel->queue_declare('calculation', false, false, false, false);
+        $msg = new AMQPMessage($filename, array('delivery_mode' => 2));
+        $channel->basic_publish($msg, '', 'task_queue');
+        $channel->close();
+        $connection->close();
+
         $this->app['app.calculation.repository']->addCalculation($uuid->toString());
         return $this->app->redirect(sprintf('/calculation/%s', $uuid->toString()));
     }
