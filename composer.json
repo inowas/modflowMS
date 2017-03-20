@@ -35,10 +35,10 @@
     },
     "scripts": {
         "post-install-cmd": [
-            "ln -s script/supervisor/inowas.rabbit.flopy.runner.conf /etc/supervisor/conf.d"
+            "./script/supervisor/install.sh"
         ],
         "post-update-cmd": [
-            "ln -s script/supervisor/inowas.rabbit.flopy.runner.conf /etc/supervisor/conf.d"
+            "./script/supervisor/install.sh"
         ],
         "run-dev": [
             "echo 'Started web server on http://localhost:8080'",
