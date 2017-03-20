@@ -17,6 +17,7 @@ $console->addCommands(array(
     new \App\Command\FlopyProcessRunnerCommand($app),
     new \App\Command\FlopyQueueAddCommand($app),
     new \App\Command\FlopyQueueListCommand($app),
+    new \App\Command\FlopyRabbitMQRunnerCommand($app),
     new \App\Command\FlopyValidateCommand($app),
     new \App\Command\FlopyTruncateTable($app),
 ));

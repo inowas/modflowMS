@@ -51,7 +51,7 @@ class DefaultController
         $connection = new AMQPStreamConnection('localhost', 5672, 'modflowMS', 'modflowMS');
         $channel = $connection->channel();
         $channel->queue_declare('calculation', false, false, false, false);
-        $msg = new AMQPMessage($filename, array('delivery_mode' => 2));
+        $msg = new AMQPMessage($uuid, array('delivery_mode' => 2));
         $channel->basic_publish($msg, '', 'task_queue');
         $channel->close();
         $connection->close();
