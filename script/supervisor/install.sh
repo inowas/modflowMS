@@ -1,12 +1,21 @@
 #!/usr/bin/env bash
 
-SOURCE_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-TARGET_DIR="/etc/supervisor/conf.d"
+platform='unknown'
+unamestr=`uname`
+if [[ "$unamestr" == 'Linux' ]]; then
+    platform='linux'
+fi
 
-for FILE in `find $SOURCE_DIR -name "*.conf"`;
-do
-    echo "Creating symbolc links for "$(basename $FILE);
-    test -e $TARGET_DIR/$(basename $FILE) || ln -s $FILE $TARGET_DIR
-done
+if [[ $platform == 'linux' ]]; then
 
-service supervisor restart;
+    SOURCE_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+    TARGET_DIR="/etc/supervisor/conf.d"
+
+    for FILE in `find $SOURCE_DIR -name "*.conf"`;
+    do
+        echo "Creating symbolc links for "$(basename $FILE);
+        test -e $TARGET_DIR/$(basename $FILE) || ln -s $FILE $TARGET_DIR
+    done
+
+    service supervisor restart;
+fi
