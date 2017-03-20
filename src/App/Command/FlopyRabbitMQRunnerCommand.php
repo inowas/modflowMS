@@ -55,12 +55,12 @@ class FlopyRabbitMQRunnerCommand extends ContainerAwareCommand {
         /** @var CalculationRepository $repo */
         $repo = $this->app['app.calculation.repository'];
 
-        if (! $this->app['app.python_process']->isValid($id)){
+        if (! $this->app['app.python_process_factory']->isValid($id)){
             return;
         }
 
         /** @var Process $process */
-        $process = $this->app['app.python_process']->getProcess($id);
+        $process = $this->app['app.python_process_factory']->getProcess($id);
         $process->run();
         $repo->calculationStarted($id);
 
