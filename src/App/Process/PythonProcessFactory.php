@@ -11,13 +11,9 @@ class PythonProcessFactory
     /** @var Application $app */
     protected $app;
 
-    /** @var \Symfony\Component\Process\ProcessBuilder  */
-    protected $processBuilder;
-
     public function __construct(Application $app)
     {
         $this->app = $app;
-        $this->processBuilder = new ProcessBuilder();
     }
 
     public function isValid(string $id): bool
@@ -27,10 +23,11 @@ class PythonProcessFactory
 
     public function getProcess(string $id): Process
     {
-        $this->processBuilder->setPrefix($this->app['python.executable']);
-        $this->processBuilder->setWorkingDirectory($this->app['flopy.path']);
-        $this->processBuilder->setArguments(array($this->app['flopy.entry.script'], $this->pathToConfigFile($id)));
-        $process = $this->processBuilder->getProcess();
+        $processBuilder = new ProcessBuilder();
+        $processBuilder->setPrefix($this->app['python.executable']);
+        $processBuilder->setWorkingDirectory($this->app['flopy.path']);
+        $processBuilder->setArguments(array($this->app['flopy.entry.script'], $this->pathToConfigFile($id)));
+        $process = $processBuilder->getProcess();
         $process->setTimeout(3600);
         $process->setIdleTimeout(60);
         return $process;

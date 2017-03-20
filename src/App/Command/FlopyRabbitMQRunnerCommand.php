@@ -66,10 +66,12 @@ class FlopyRabbitMQRunnerCommand extends ContainerAwareCommand {
 
         if ($process->isSuccessful()){
             $repo->calculationFinished($id, true, $process->getOutput());
+            unset($process);
             return;
         }
 
         $repo->calculationFinished($id, false, $process->getOutput());
+        unset($process);
         return;
     }
 }
