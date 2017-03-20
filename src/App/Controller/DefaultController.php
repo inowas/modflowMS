@@ -51,7 +51,7 @@ class DefaultController
         $configFile->move($modelsPath.'/'.$uuid->toString(), $name);
         $filename = $modelsPath.'/'.$uuid->toString().'/'.$name;
         $content = file_get_contents($filename);
-        Assertion::isJsonString($content);
+        #Assertion::isJsonString($content);
         $this->app['app.calculation.repository']->addCalculation($uuid->toString());
         return $this->app->redirect(sprintf('/calculation/%s', $uuid->toString()));
     }
