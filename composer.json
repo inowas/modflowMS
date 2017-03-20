@@ -34,6 +34,12 @@
         }
     },
     "scripts": {
+        "post-install-cmd": [
+            "ln -s script/supervisor/inowas.rabbit.flopy.runner.conf /etc/supervisor/conf.d"
+        ],
+        "post-update-cmd": [
+            "ln -s script/supervisor/inowas.rabbit.flopy.runner.conf /etc/supervisor/conf.d"
+        ],
         "run-dev": [
             "echo 'Started web server on http://localhost:8080'",
             "php -S localhost:8080 -t web web/index_dev.php"
