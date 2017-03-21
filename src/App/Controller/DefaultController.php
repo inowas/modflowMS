@@ -11,6 +11,7 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class DefaultController
 {
@@ -101,6 +102,35 @@ class DefaultController
                 'files' => $files
             )
         );
+    }
+
+    /**
+     * @param string $id
+     * @param string $filename
+     * @return string
+     */
+    public function calculationFilesAction(string $id, string $filename)
+    {
+        if (! Uuid::isValid($id)){
+            $this->app->abort(404, sprintf('Calculation $id %s is not valid.', $id));
+        }
+
+        $projectPath = $this->app['models.path'].'/'.$id;
+        $fs = new Filesystem();
+        if (! $fs->exists($projectPath)) {
+            $this->app->abort(404, sprintf('Project with $id %s does not exist (anymore).', $id));
+        }
+
+        $filename = str_replace("_", ".", $filename);
+        $finder = new Finder();
+        foreach ($finder->files()->in($projectPath)->name($filename) as $file) {
+            $response = new Response();
+            $response->setContent($file->getContents());
+            $response->headers->set('Content-Type', 'text/plain');
+            return $response;
+        }
+
+        return $this->app->abort(404, 'File not found, sorry.');
     }
 
     private function getConfiguration($projectPath): string

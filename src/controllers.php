@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 $app->get('/', 'app.default_controller:indexAction');
 $app->post('/', 'app.default_controller:uploadConfigurationAction');
 $app->get('/calculation/{id}', 'app.default_controller:calculationAction');
+$app->get('/calculation/{id}/files/{filename}', 'app.default_controller:calculationFilesAction');
 $app->post('/api/validate', 'app.api_controller:postValidateAction');
 $app->post('/api/calculate', 'app.api_controller:postCalculateAction');
 $app->post('/api/calculate/{id}', 'app.api_controller:postCalculateAction');

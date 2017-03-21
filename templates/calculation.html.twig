@@ -54,7 +54,7 @@
                                     <tbody>
                                         {% for file in files %}
                                             <tr>
-                                                <td>{{ file.filename }}</td>
+                                                <td><a target="_blank" href="{{ calculation["calculation_id"] }}/files/{{ file.filename|replace({('.'):('_')}) }}">{{ file.filename }}</a></td>
                                                 <td>{{ file.size }}</td>
                                             </tr>
                                         {% endfor %}
