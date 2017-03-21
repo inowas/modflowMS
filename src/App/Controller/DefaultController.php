@@ -7,6 +7,8 @@ use PhpAmqpLib\Connection\AMQPStreamConnection;
 use PhpAmqpLib\Message\AMQPMessage;
 use Ramsey\Uuid\Uuid;
 use Silex\Application;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -70,9 +72,21 @@ class DefaultController
             $this->app->abort(404, sprintf('Calculation $id %s is not valid.', $id));
         }
 
+        $projectPath = $this->app['models.path'].'/'.$id;
+        $fs = new Filesystem();
+        if (! $fs->exists($projectPath)) {
+            $this->app->abort(404, sprintf('Project with $id %s does not exist (anymore).', $id));
+        }
+
         $filename = $this->app['models.path'].'/'.$id.'/'.$this->app['uploaded_file_name'];
         if (! file_exists($filename)){
             $this->app->abort(404, sprintf('Calculation with $id %s does not exist anymore.', $id));
+        }
+
+        $files = [];
+        $finder = new Finder();
+        foreach ($finder->files()->in($projectPath) as $file) {
+            $files[] = $file;
         }
 
         /** @var CalculationRepository $repository */
@@ -82,9 +96,20 @@ class DefaultController
         return $this->app['twig']->render(
             'calculation.html.twig',
             array(
-                'configuration' => file_get_contents($filename),
-                'calculation' => $calculation
+                'configuration' => $this->getConfiguration($projectPath),
+                'calculation' => $calculation,
+                'files' => $files
             )
         );
+    }
+
+    private function getConfiguration($projectPath): string
+    {
+        $configuration = "{}";
+        $finder = new Finder();
+        foreach ($finder->files()->in($projectPath)->name('*.json') as $file) {
+            $configuration = $file->getContents();
+        }
+        return $configuration;
     }
 }

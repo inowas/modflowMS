@@ -85,6 +85,7 @@ class ProcessRunner
                 }
 
                 $process = $this->processFactory->getProcess($id);
+                echo sprintf("Run: %s %s\r\n", $process->getWorkingDirectory(), $process->getCommandLine());
                 $process->start();
                 $this->addProcess($process, $id);
                 $this->calculationRepository->calculationStarted($id);

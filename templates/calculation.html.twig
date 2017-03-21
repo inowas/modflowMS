@@ -3,36 +3,65 @@
 {% block content %}
     <div class="container">
         <h1>Modflow Calculation</h1>
-
-        <div class="row">
-            <div class="col-sm-6">
-                <div class="panel panel-default">
-                    <div class="panel-heading">Status</div>
-                    <div class="panel-body">
-                        <p>Id: {{ calculation["id"] }}</p>
-                        <p>Calculation Id: {{ calculation["calculation_id"] }}</p>
-                        <p>Added: {{ calculation["added_to_queue"] }}</p>
-                        <p>Started: {{ calculation["calculation_started"] }}</p>
-                        <p>Finished: {{ calculation["calculation_finished"] }}</p>
-                        <p>State: {{ calculation["state"] }}</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6">
-                <div class="panel panel-default">
-                    <div class="panel-heading">Configuration File Content</div>
-                    <div class="panel-body">
-                        <p>{{ configuration }}</p>
-                    </div>
-                </div>
-            </div>
-        </div>
         <div class="row">
             <div class="col-sm-12">
-                <div class="panel panel-default">
-                    <div class="panel-heading">Log</div>
-                    <div class="panel-body">
-                        <p>{{ calculation["output"] }}</p>
+                <ul class="nav nav-tabs">
+                    <li class="active"><a data-toggle="tab" href="#status">Status</a></li>
+                    <li><a data-toggle="tab" href="#config">Configuration</a></li>
+                    <li><a data-toggle="tab" href="#log">Calculation Log</a></li>
+                    <li><a data-toggle="tab" href="#files">Files</a></li>
+                </ul>
+
+                <div class="tab-content">
+                    <div id="status" class="tab-pane fade in active">
+                        <h3>Status</h3>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">General information</div>
+                                    <div class="panel-body">
+                                        <p>Id: {{ calculation["id"] }}</p>
+                                        <p>Calculation Id: {{ calculation["calculation_id"] }}</p>
+                                        <p>Added: {{ calculation["added_to_queue"] }}</p>
+                                        <p>Started: {{ calculation["calculation_started"] }}</p>
+                                        <p>Finished: {{ calculation["calculation_finished"] }}</p>
+                                        <p>State: {{ calculation["state"] }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="config" class="tab-pane fade">
+                        <h3>Configuration File</h3>
+                        <pre>
+                            <code class="language-json">{{ configuration }}</code>
+                        </pre>
+                    </div>
+                    <div id="log" class="tab-pane fade">
+                        <h3>Calculation Log</h3>
+                            <pre>
+                                <code class="language-json">{{ calculation["output"] }}</code>
+                            </pre>
+                    </div>
+                    <div id="files" class="tab-pane fade">
+                        <h3>Files</h3>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr><th>Filename</th><th>Size</th></tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for file in files %}
+                                            <tr>
+                                                <td>{{ file.filename }}</td>
+                                                <td>{{ file.size }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
