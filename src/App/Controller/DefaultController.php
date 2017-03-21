@@ -127,6 +127,7 @@ class DefaultController
             $response = new Response();
             $response->setContent($file->getContents());
             $response->headers->set('Content-Type', 'text/plain');
+            $response->headers->set('Content-Disposition', 'inline; filename="'. $filename .'";');
             return $response;
         }
 
